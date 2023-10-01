@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+//brute approach
+vector<vector<int>>pwset(vector<int>&arr){
+	int n = arr.size();
+	vector<vector<int>>ans = {{}};
+	
+	for(int i=0;i<n;i++){
+		int element = arr[i];
+		int len = ans.size();
+		
+		for(int j=0;j<len;j++){
+			vector<int>temp = ans[j];
+			temp.push_back(element);
+			ans.push_back(temp);
+		}
+	}
+	return ans;
+}
+//recursion
+void solve(int idx,vector<int>&arr,vector<int>curr,vector<vector<int>>&ans){
+	if(idx>=arr.size()){
+		ans.push_back(curr);
+		return;
+	}
+	
+	solve(idx+1,arr,curr,ans);
+	
+	curr.push_back(arr[idx]);
+	solve(idx+1,arr,curr,ans);
+}
+vector<vector<int>>pwset(vector<int>&arr){
+	vector<vector<int>>ans;
+	vector<int>curr;
+	int idx =0;
+	solve(idx,arr,curr,ans);
+	return ans;
+}

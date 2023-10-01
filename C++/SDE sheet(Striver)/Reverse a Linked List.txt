@@ -1,0 +1,37 @@
+//iterative approach - 3 pointers
+ListNode*reverseList(ListNode*head){
+	ListNode*prev_p = NULL;
+	ListNode*curr_p = head;
+	ListNode*next_p;
+	
+	while(curr_p){
+		next_p = curr_p->next;
+		curr->p->next =prev_p;
+		prev_p = curr_p;
+		curr_p = next_p;
+	}
+	
+	head = prev_p;
+	return head;
+}
+// recursive
+ListNode*reverseList(ListNode*head){
+	ListNode*temp = head;
+	while(head!=NULL){
+		ListNode*next = head->next;
+		head->next = temp;
+		temp = head;
+		head = next;
+	}
+	return temp;
+}
+//recursion
+ListNode*reverseList(ListNode*head){
+	if(head==NULL ||head-next==NULL)
+	return head;
+	
+	ListNode*temp = reverseList(ListNode*head);
+	head->next->next = head;
+	head->next = NULL;
+	return temp;
+}

@@ -1,0 +1,52 @@
+//recursive approach - codestudio
+#include<bits/stdc++.h>
+void traversalLeft(TreeNode<int>*root,vector<int>&ans){
+    if((root==NULL)||(root->left==NULL && root->right==NULL)){
+        return;
+    }
+    ans.push_back(root->data);
+    if(root->left){
+        traversalLeft(root->left,ans);
+    }
+    else{
+        traversalLeft(root->right,ans);
+    }
+}
+//for the leaf node
+void traversalLeaf(TreeNode<int>*root,vector<int>&ans){
+    if(root==NULL){
+        return;
+    }
+    if(root->left==NULL && root->right==NULL){
+        ans.push_back(root->data);
+        return;
+    }
+    traversalLeaf(root->left,ans);
+    traversalLeaf(root->right,ans);
+}
+//for right traversal
+void traversalRight(TreeNode<int>*root,vector<int>&ans){
+    if((root==NULL)||(root->left==NULL&& root->right==NULL)){
+        return;
+    }
+    if(root->right){
+        traversalRight(root->right,ans);
+    }
+    else{
+        traversalRight(root->left,ans);
+    }
+    ans.push_back(root->data);
+}
+vector<int> traverseBoundary(TreeNode<int>*root){
+    // Write your code here.
+    vector<int>ans;
+    if(root==NULL){
+        return ans;
+    }
+    ans.push_back(root->data);
+    traversalLeft(root->left,ans); //left traversal
+    traversalLeaf(root->left,ans); //left subtree
+    traversalLeaf(root->right,ans); //right subtree
+    traversalRight(root->right,ans);//right traversal
+    return ans;
+}

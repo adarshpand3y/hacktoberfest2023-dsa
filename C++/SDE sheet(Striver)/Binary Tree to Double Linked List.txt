@@ -1,0 +1,52 @@
+//using recursive 1
+#include<bits/stdc++.h>
+BinaryTreeNode<int>*BinaryTreeToDLL(BinaryTreeNode<int>*root){
+	if(root==NULL)
+		return root;
+	
+	if(root->left!=NULL){
+		BinaryTreeNode<int>*left = BinaryTreeToDLL(root->left);
+		while(left->right!=NULL){
+			left = left->right;
+		}
+		left->right = root;
+		root->left = left;
+	}
+	
+	if(root->right!=NULL){
+		BinaryTreeNode<int>*right = BinaryTreeToDLL(root->right);
+		while(right->left!=NULL){
+			right = right->left;
+		}
+		right->left = root;
+		root->right = right;
+	}
+	while(root->left!=NULL){
+		root= root->left;
+	}
+	return root;
+}
+//Another sol - recursive 2
+void findHead(BinaryTreeNode<int>*root,BinaryTreeNode<int>**head,BinaryTreeNode<int>**prev){
+	if(root==NULL){
+		return;
+	}
+	findHead(root->left,head,prev);
+	if(*prev==NULL){
+		*head = root;
+	}
+	else{
+		root->left = *prev;
+		(*prev)->right = root;
+	}
+	*prev = root;
+	
+	findHead(root->right,head,prev);
+}
+BinaryTreeNode<int>*BinaryTreeToDLL(BinaryTreeNode<int>*root){
+	BinaryTreeNode<int>*head = NULL;
+	BinaryTreeNode<int>*prev = NULL;
+	findHead(root,&head,&prev);
+	
+	return head;
+}

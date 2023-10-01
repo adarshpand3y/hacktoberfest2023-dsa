@@ -1,0 +1,31 @@
+//using brute approach
+bool isCompatible(vector<int>inp,int dist,int cows){
+	int n = inp.size();
+	int k  = inp[0];
+	cows--;
+	
+	for(int i=1;i<n;i++){
+		if(inp[i]-k>=dist){
+			cows--;
+		if(!cows){
+			return true;
+		}
+		k = inp[i];
+		}
+	}
+	return false;
+}
+//Best approach - binary search
+bool isPossible(int a[],int n,int cows,int minDist){
+	int cnt =1;
+	int lastPlaced = a[0];
+	for(int i=1;i<n;i++){
+		if(a[i]-lastPlaced>=minDist){
+			cnt++;
+			lastPlaced = a[i];
+		}
+	}
+	if(cnt>=cows)
+	return true;
+		return false;
+}

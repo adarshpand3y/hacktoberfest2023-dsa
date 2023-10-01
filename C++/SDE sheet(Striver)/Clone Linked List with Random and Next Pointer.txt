@@ -1,0 +1,63 @@
+//brute force approach - using hashmap
+class Node {
+    public:
+        int val;
+        Node* next;
+        Node* random;
+        Node(int value) {
+            val = value;
+            next = NULL;
+            random = NULL;
+        }
+};
+Node*copyRandomList(Node*head){
+	unordered_map<Node*,Node*>mp;
+	Node*temp = head;
+//first iteration for inserting deep nodes of every node in the hashmap.
+	while(temp->next!=NULL){
+		Node*newNode = new Node(temp->val);
+		mp[temp] = newNode;
+		temp = temp->next;
+	}
+	
+	Node*res = head;
+//second iteration for linking next and random pointer in g\n quest.
+	while(res!=NULL){
+		Node*node = mp[res];
+		node->next = (res->next!=NULL)?mp[res->next]:NULL;
+		node->random = (res->random!=NULL)?mp[res->random]:NULL;
+		res = res->next;
+	}
+	return mp[head];
+}
+//optimised solution
+Node*copyRandomList(Node*head){
+	Node*temp = head;
+	//step 1
+	while(temp!=NULL){
+		Node*newNode = new Node(temp->val);
+		newNode->next = temp->next;
+		temp->next = newNode;
+		temp = temp->next->next;
+	}
+	//step2
+	Node*itr = head;
+	while(itr!=NULL){
+		if(itr->random!=NULL)
+		itr->next->random = itr->random->next;
+		itr = itr->next->next;
+	}
+	//step3
+	Node*dummy = new Node(0);
+	itr = head;
+	temp = dummy;
+	Node*fast;
+	while(itr!=NULL){
+		fast = itr->next->next;
+		temp->next = itr->next;
+		itr->next = fast;
+		temp = temp->next;
+		itr = fast;
+	}
+	return dummy->next;
+}

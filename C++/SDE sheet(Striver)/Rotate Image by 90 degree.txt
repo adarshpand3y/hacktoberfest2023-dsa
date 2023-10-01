@@ -1,0 +1,51 @@
+//brute code
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>>rotate(vector<vector<int>>&matrix){
+	int n = matrix.size();
+	vector<vector<int>>ans(n,vector<int>(n,0));
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			ans[j][n-i-1] = matrix[i][j];
+		}
+	}
+	return ans;
+}
+//Optimal approach
+void rotate(vector<vector<int>>&matrix){
+	int n = matrix.size();
+	for(int i=0;i<n;i++){
+		for(int j=0;j<i;j++){
+			swap(matrix[i][j],matrix[j][i]);
+		}
+	}
+	for(int i=0;i<n;i++){
+		reverse(matrix[i].begin(),matrix[i].end());
+	}
+}
+//Another solution
+void rotateMatrix(vector<vector<int>> &mat, int n, int m)
+{
+    // Write your code here
+     if(n==1 || m==1) return;
+    int top = 0, bot = n-1, left = 0, right = m-1;
+    while (top < bot && left < right) {
+      int temp = mat[left][top];
+
+      for (int i = top; i < bot; i++)
+        mat[i][left] = mat[i + 1][left];
+
+      for (int i = left; i < right; i++)
+        mat[bot][i] = mat[bot][i + 1];
+
+      for (int i = bot; i > top; i--)
+        mat[i][right] = mat[i - 1][right];
+
+      for (int i = right; i > left + 1; i--)
+        mat[top][i] = mat[top][i - 1];
+
+      mat[top][left + 1] = temp;
+      top++, bot--, left++, right--;
+    }
+}

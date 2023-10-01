@@ -1,0 +1,21 @@
+//using DFS traversal
+#include<bits/stdc++.h>
+graphNode*help(graphNode*node,unordered_map<graphNode*,graphNode*>&copies){
+	if(node==NULL)
+		return NULL;
+		
+	//If HashMap doesn't contain the node
+	if(copies.find(node)==copies.end()){
+		copies[node]  = new graphNode(node->data,{});
+		
+		for(graphNode*neighbour:node->neighbours){
+			copies[node]->neighbours.push_back(help(neighbour,copies));
+		}
+	}
+	return copies[node];
+}
+graphNode*cloneGraph(graphNode*node){
+	unordered_map<graphNode*,graphNode*>copies;
+	
+	return help(node,copies);
+}

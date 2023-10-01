@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+	public:
+		int num;
+		node*next;
+		node(int a){
+			num = a;
+			next = NULL;
+		}
+};
+//function to insert node at the end of the list
+void insertNode(node*&head,int val){
+	node*newNode = new node(val);
+	if(head==NULL){
+		head = newNode;
+		return;
+	}
+	node*temp = head;
+	while(temp->next!=NULL)
+	temp = temp->next;
+	temp->next  = newNode;
+}
+//function to get reference of the node to delete
+node*getNode(node*head,int val){
+	while(head->num!=val)
+	head = head->next;
+	return head;
+}
+//function to delete a/c the ques.
+void deleteNode(node*tmp){
+	tmp->num = tmp->next->num;
+	tmp->next =tmp->next->next;
+	return;
+}
+//printing the list function
+void printList(node*head){
+	while(head->next!=NULL){
+		cout<<head->num<<"->";
+		head = head->next;
+	}
+	cout<<head->num<<"\n";
+}
+//main function (template) - just by a taking example
+int main(){
+	node*head = NULL;
+	insertNode(head,1);
+	insertNode(head,4);
+	insertNode(head,2);
+	insertNode(head,3);
+	
+	printList(head);
+	node*tmp  = getNode(head,2);
+	deleteNode(tmp);
+	printList(head);
+	return 0;
+}
+
+//Alternative solution:- (direct)
+void deleteNode(LinkedListNode<int> * node) {
+    // Write your code here.
+    node->data = node->next->data;
+    node->next = node->next->next;
+}

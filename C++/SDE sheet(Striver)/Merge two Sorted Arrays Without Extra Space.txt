@@ -1,0 +1,40 @@
+//Approach - without using any extra space
+#include<bits/stdc++.h>
+using namespace std;
+
+void merge(long long arr1[],long long arr2[],int n, int m){
+	int left = n-1;
+	int right =0;
+	
+	while(left>=0 && right<m){
+		if(arr1[left]>arr2[right]){
+			swap(arr1[left],arr2[right]);
+			left--,right++;
+		}
+		else{
+			break;
+		}
+	}
+	
+	sort(arr1,arr1+n);
+	sort(arr2,arr2+m);
+}
+//Another
+void mergeTwoSortedArraysWithoutExtraSpace(vector<long long>&a, vector<long long>&b){
+	// Write your code here.
+	int n = a.size();
+	int m = b.size();
+	int left =n-1;
+	int right =0;
+
+	while(left>=0 && right<m){
+		if(a[left]>b[right]){
+			swap(a[left],b[right]);
+			left--,right++;
+                } else {
+                  break;
+                }
+        }
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+}

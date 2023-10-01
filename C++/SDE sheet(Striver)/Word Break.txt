@@ -1,0 +1,84 @@
+//brute approach
+#include<bits/stdc++.h>
+using namespace std;
+vector<string>help(string&sentence,int indx,unordered_set<string>&dictionary,int size){
+	if(idx==size)
+	return {""};
+	
+	vector<string>subPart,completePart;
+	string word = "";
+	
+	for(int j = idx;j<size;j++){
+		word.push_back(sentence[j]);
+		if(dictionary.count(word)==0)
+			continue;
+		
+	subPart = help(sentence,j+1,dictionary,size);
+	
+	for(int i=0;i<subPart.size();i++){
+		if(subPart[i].size()>0){
+			subPart[i] = word + ""+ subPart[i];
+		}
+		else{
+			subPart[i] = word +""+subPart[i];
+		}
+	}
+	
+	for(auto sub:subPart){
+		completePart.push_back(sub);
+		}
+	}
+	return completePart;
+}
+
+vector<string>getAllValidSentence(string &s,vector<string>&dict){
+	unordered_set<string>d;
+	for(auto word:dict){
+		d.insert(word);
+	}
+	return help(s,0,d,s.size());
+}
+//DP
+vector<string>help(string&sentence,int idx,unordered_set<string>&dictionary,int size){
+	if(idx==size)
+	return {""};
+	
+	//Already has solution
+	if(dp.find(idx)!=dp.end()){
+		return dp[idx];
+	}
+	
+	vector<string>subPart,completePart;
+	string word = "";
+	
+	for(int j = idx;j<size;j++){
+		word.push_back(sentence[j]);
+		if(dictionary.count(word)==0)
+			continue;
+		
+	subPart = help(sentence,j+1,dictionary,dp,size);
+	
+	for(int i=0;i<subPart.size();i++){
+		if(subPart[i].size()!=0){
+			subPart[i] = word + ""+ subPart[i];
+		}
+		else{
+			subPart[i] = word +""+subPart[i];
+		}
+	}
+	
+	for(auto sub:subPart){
+		completePart.push_back(sub);
+		}
+	}
+	return dp[idx] = completePart;
+}
+
+vector<string>getAllValidSentence(string &s,vector<string>&dict){
+	unordered_map<int,vector<string>>dp;
+	unordered_set<string>d;
+	for(auto word:dict){
+		d.insert(word);
+	}
+	return help(s,0,d,dp,s.size());
+}

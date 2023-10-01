@@ -1,0 +1,39 @@
+//brute approach -(using hashset)
+void help(vector<int>&nums,int ind,vector<int>&ds,set<vector<int>>&st,vector<vector<int>>&ans){
+	if(ind==nums.size()){
+		sort(ds.begin(),ds.end());
+		st.insert(ds);
+		return;
+	}
+	ds.push_back(nums[ind]);
+	help(nums,ind+1,ds,st,ans);
+	ds.pop_back();
+	help(nums,ind+1,ds,st,ans);
+vector<vector<int>>subsetWithDup(vector<int>nums){
+	vetor<vector<int>>ans;
+	set<vector<int>>st;
+	vector<int>ds;
+	help(nums,0,ds,st,ans);
+	for(auto it=st.begin();it!=st.end();it++){
+		ans.push_back(*it);
+	}
+	return ans;
+}
+//Optimal
+void findSubsets(int ind,vector<int>&nums,vector<int>&ds,vector<vector<int>>&ans){
+	ans.push_back(ds);
+	for(int i=ind;i<nums.size();i++){
+		if(i!=ind && nums[i]==nums[i-1])
+		continue;
+		ds.push_back(nums[i]);
+		findSubsets(i+1,nums,ds,ans);
+		ds.pop_back();
+	}
+}
+vector<vector<int>>subsetWithDup(vector<int>nums){
+	vector<vector<int>>ans;
+	vector<int>ds;
+	sort(nums.begin(),nums.end());
+	findSubsets(0,nums,ds,ans);
+	return ans;
+}

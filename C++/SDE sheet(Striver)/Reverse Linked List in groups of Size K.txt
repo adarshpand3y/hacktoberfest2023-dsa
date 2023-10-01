@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+node*reverseGroups(node*head,int k){
+	if(head==NULL||head->next==NULL)
+	return head;
+	
+	int length = lengthOfLinkedList(head);
+	
+	node*dummyHead = new node(0);
+	dummyHead->next = head;
+	
+	node*prev = dummyHead;
+	node*curr;
+	node*nex;
+	
+	while(length>=k){
+		curr = prev->next;
+		nex  = curr->next;
+		
+		for(int i=1;i<k;i++){
+			curr->next = nex->next;
+			nex->next = prev->next;
+			prev->next = nex;
+			nex = nex->next;
+		}
+		prev = curr;
+		length -=k
+	}
+	return dummyHead->next;
+}
+int lengthOfLinkedList(node*head){
+	int length =0;
+	while(head!=NULL){
+		length++;
+	head = head->next;
+	}
+	return length;
+}

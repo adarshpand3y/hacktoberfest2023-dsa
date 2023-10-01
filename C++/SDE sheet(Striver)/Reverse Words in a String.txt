@@ -1,0 +1,57 @@
+//using string
+#include<bits/stdc++.h>
+string reverseString(string str){
+	int n = str.length();
+	string ans;
+	int i=0;
+	while(i<n){
+		int j= i;
+		while(j<n && str[j]==' '){
+			j++;
+		}
+		string currWord;
+		while(j<n && str[j]!=' '){
+			currWord.push_back(str[j]);
+			j++;
+		}
+		if(currWord.length()!=0){
+			ans.insert(0,currWord+" ");	
+		}
+		i = j+1;
+	}
+	if(ans.length()==0){
+		return ans;
+	}
+	
+	return ans.substr(0,ans.length()-1);
+}
+//Optimised solution-O(n) time complexity
+string result(string s){
+	int left =0,right = s.length()-1;
+	
+	string temp = "";
+	string ans = "";
+	
+	while(left<=right){
+		char ch = s[left];
+		if(ch!=''){
+			temp+=ch;
+		}
+		else if(ch==' '){
+			if(ans!="")
+			ans = temp+" "+ans;
+			else
+			ans = temp;
+			temp ="";
+		}
+		left++;
+	}
+	
+	if(temp!=""){
+		if(ans!="")
+		ans = temp + " "+ans;
+		else
+		ans = temp;
+	}
+	return ans;
+}

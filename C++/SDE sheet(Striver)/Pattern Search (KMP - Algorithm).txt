@@ -1,0 +1,61 @@
+//brute approach
+#include<bits/stdc++.h>
+vector<int>stringMatch(string text,string pattern){
+	int n = text.size();
+	int m = pattern.size();
+	
+	vector<int>ans;
+	
+	for(int i=0;i<=n;i++){
+		bool match =true;
+	for(int j=0;j<m;j++){
+		if(text[i+j]!=pattern[j]){
+			match = false;
+			break;
+		}
+	}
+	if(match){
+		ans.push_back(i+1);
+	}
+}
+return ans;
+}
+//KMP algorithm
+vector<int>stringMatch(string text,string pattern){
+	int n = text.size();
+	int m = pattern.size();
+	
+	vector<int>ans;
+	vector<int>lps(m); //initialising LPS array
+	lp[0] =0;
+	int i =1;j=0;
+	while(i<m){
+		if(pattern[i]==pattern[j]){
+			lps[i] = j+1;
+			i++,j++;
+		}
+		else if(j>0)
+		j = lps[j-1];
+		else{
+			lps[i] = 0;
+			i++;
+		}
+	}
+	i=0,j=0;
+	while(i<n){
+		if(text[i]==pattern[j]){
+			i++,j++;
+		}
+		else if(j>0)
+			j = lps[j-1];
+		else
+			i++;
+		
+		//if the pattern matches
+		if(j==m){
+			ans.push_back(i-m+1);
+			j = lps[j-1];
+		}
+	}
+	return ans;
+}

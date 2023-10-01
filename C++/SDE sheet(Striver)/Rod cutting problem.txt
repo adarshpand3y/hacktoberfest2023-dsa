@@ -1,0 +1,52 @@
+//recursive
+#include<bits/stdc++.h>
+using namespace std;
+int cutRod(vector<int>&price,int n){
+	if(n<=0){
+		return 0;
+	}
+	
+	int maxCost = INT_MIN;
+	
+	for(int i=0;i<n;i++){
+		maxCost = max(maxCost,price[i]+cutRod(price,n-i-1));
+	}
+	return maxCost;
+}
+//top-down DP
+int help(vector<int>&price,int maxLen,int n,vector<vector<int>>&cost){
+	if(n<=0 ||maxLen<=0){
+		return 0;
+	}
+	
+	if(cost[n][maxLen]!=-1)
+	return cost[n][maxLen];
+	
+	if(n<=maxLen){
+	cost[n][maxLen] = max(price[n-1]+help(price,maxLen-n,n,cost),help(price,maxLen,n-1,cost));
+	}
+	else {
+		cost[n][maxLen] = help(price,maxLen,n-1,cost);
+	}
+	return cost[n][maxLen];
+}
+int cutRod(vector<int>&price,int n){
+	vector<vector<int>>cost(n+2,vector<int>(n+2,-1));
+	return help(price,n,n,cost);
+}
+//bottom-up DP
+int cutRod(vector<int>&price,int n){
+	int cost[n+1];
+	cost[0] =0;
+	int i,j;
+	
+	for(i=1;i<=n;i++){
+		int maxCost = INT_MIN;
+		
+		for(j=0;j<i;j++){
+			maxCost = max(maxCost,price[j]+cost[i-j-1]);
+		}
+		cost[i] = maxCost;
+	}
+	return cost[n];
+}

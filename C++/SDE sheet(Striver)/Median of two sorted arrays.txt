@@ -1,0 +1,9 @@
+double median(vector<int>&a,vector<int>&b){
+	vector<int>med;
+	med.insert(med.begin(),a.begin(),a.end());
+	med.insert(med.end(),b.begin(),b.end());
+	
+	sort(med.begin(),med.end());
+	
+	return (med[med.size()/2]+med[(med.size()-1)/2])/2.00;
+}

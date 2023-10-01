@@ -1,0 +1,38 @@
+//using level order traversal
+#include<bits/stdc++.h>
+vector<int> zigzagTreeTraversal(TreeNode<int> *root)
+{
+    vector<int>res;
+    if(root==NULL){
+        return res;
+    }
+    queue<TreeNode<int>*>q;
+    q.push(root);
+
+    bool leftToRight = true;
+
+    while(!q.empty()){
+        int size = q.size();
+        vector<int>ans(size);
+    
+    for(int i=0;i<size;i++){
+        TreeNode<int>*front = q.front();
+        q.pop();
+
+        int ind = leftToRight?i:size-i-1;
+        ans[ind] = front->data;
+
+        if(front->left){
+            q.push(front->left);
+        }
+        if(front->right){
+            q.push(front->right);
+        }
+    }
+    leftToRight = !leftToRight; //for direction change
+    for(auto i:ans){
+        res.push_back(i);
+        }
+    }
+    return res;
+}

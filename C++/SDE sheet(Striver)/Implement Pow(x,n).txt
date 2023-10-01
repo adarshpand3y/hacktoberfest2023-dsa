@@ -1,0 +1,28 @@
+//using Binary Exponentiation
+#include<bits/stdc++.h>
+using namespace std;
+
+double myPow(double x,int n){
+	double ans =1.0;
+	
+	bool flag = false;
+	if(n<0){
+		flag = true;
+		n =-n;
+	}
+	//binary exponentiation
+	while(n>0){
+		if(n%2==0){
+			n/=2;
+		}
+		else{
+			ans = ans*x;
+			n/=2;
+		}
+		x = x*x;
+	}
+	if(flag){
+		ans = 1.0/ans;
+	}
+	return ans;
+}

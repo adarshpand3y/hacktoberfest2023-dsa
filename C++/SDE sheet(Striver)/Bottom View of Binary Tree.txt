@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+vector<int>bottomView(Node*root){
+	vector<int>v;
+	if(root==NULL){
+		return v;
+	}
+	map<int,vector<int>>mp;
+	queue<pair<Node*,int>>q;
+	q.push({root,0});
+	
+	while(!q.empty()){
+		root = q.front().first;
+		int col = q.front().second;
+		q.pop();
+		
+		mp[col].push_back(root->val);
+		
+		if(root->left){
+			q.push({root->left,col-1});
+		}
+		if(root->right){
+			q.push({root->right,col+1});
+		}
+	}
+	for(auto it:mp){
+		v.insert(v.end(),it.second.rbegin(),it.second.rbegin()+1);
+	}
+	return v;
+}

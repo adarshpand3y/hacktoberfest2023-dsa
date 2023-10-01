@@ -1,0 +1,103 @@
+//brute approach
+#include<bits/stdc++.h>
+using namespace std;
+bool isPalindrome(string str,int i,int j){
+	while(i<=j){
+		if(str[i++]!=str[j--]){
+			return false;
+		}
+	}
+	return true;
+}
+
+int partition(string str,int i,int j){
+	if(i==j||isPalindrome(str,i,j));
+	return 0;
+	
+	int min = INT_MAX;
+	
+	for(int k=i;k<=j-1;k++){
+		int count = 1+help(str,i,k)+help(str,k+1,j);
+	if(count<min){
+		min = count;
+		}
+	}
+	return min;
+}
+int palindromePartition(string str){
+	int n = str.size();
+	return partition(str,0,n-1);
+}
+//DP
+int palindromePartition(string str){
+	int n = str.length();
+	
+	//cuts[i][j] is 0 if isPalindrome[i][j] is true
+	int cuts[n][n];
+	bool isPalindrome[n][n];
+	
+	for(int i=0;i<n;i++){
+		isPalindrome[i][i] = true;
+		cuts[i][i] =0;
+	}
+	
+	for(int l=2;l<=n;l++){
+		for(int i=0;i<n-l+1;i++){
+			int j = i+l-1; //ending index
+		
+		if(l==2){
+			isPalindrome[i][j] = (str[i]==str[j]);
+		}
+		else{
+			isPalindrome[i][j] = (str[i]==str[j]) && isPalindrome[i+1][j-1];
+		}
+		if(isPalindrome[i][j]==true){
+			cuts[i][j]=0;
+		}
+		else{
+			cuts[i][j] = INT_MAX;
+			for(int k=i;k<=j-1;k++){
+				cuts[i][j] = min(cuts[i][j],cuts[i][k]+cuts[k+1][j]+1);
+			}
+		}
+	}
+}
+return cuts[0][n-1];
+}
+//better Optimised DP
+int palindromePartition(string str){
+	int n = str.size();
+	int cuts[n][n];
+	bool isPalindrome[n][n];
+	
+	int i,j,k,l;
+	for(int i=0;i<n;i++){
+		isPalindrome[i][i] = true;
+	}
+	
+	for(l=2;l<=n;l++){
+		for(i=0;i<n-l+1;i++){
+			j = i+l-1;
+		
+		if(l==2){
+			isPalindrome[i][j] = (str[i]==str[j]);
+		}
+		else{
+			isPalindrome[i][j] = (str[i]==str[j]) && isPalindrome[i+1][j-1];
+		}
+	}
+}
+	for(i=0;i<n;i++){
+		if(isPalindrome[0][i]==true){
+			cuts[i] =0;
+		}
+		else{
+			cuts[i] = INT_MAX;
+			for(j=0;j<i;j++){
+				if(isPalindrome[j+1][i]==true && 1+cuts[j]<cuts[i])
+				cuts[i] = 1+cuts[j];
+			}
+		}
+	}
+	return cuts[n-1];
+}

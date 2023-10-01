@@ -1,0 +1,54 @@
+//using traversal techniques + recursion(striver)
+#include<bits/stdc++.h>
+struct node{
+	int data;
+	struct node*left;
+	struct node*right;
+};
+
+bool getpath(node*root,vector<int>&arr,int x){
+	if(!root)
+	return false;
+	
+	arr.push_back(root->data);
+	
+	if(root->data==x)
+	return true;
+	
+	
+	if(getPath(root->left,arr,x)||getPath(root->right,arr,x))
+	return true;
+	
+	arr.pop_back();
+	return false;
+}
+
+struct node*newNode(int data){
+	struct node*node = (struct node*)malloc(sizeof(struct node));
+	node->data = data;
+	node->left = NULL;
+	node->right = NULL;
+	
+	return node;
+}
+//Another sol - using recursion (codestudio)
+void help(BinaryTreeNode<int>*root,vector<string>&ans,string temp){
+	temp +=to_string(root->data)+" ";
+	if(!root->left && !root->right){
+		ans.push_back(temp);
+		return;
+	}
+	if(root->left)
+	help(root->left,ans);
+	if(root->right)
+	help(root->right,ans);
+}
+
+vector<string>allRootToLeaf(BinaryTreeNode<int>*root){
+	vector<string>ans;
+	string temp = "";
+	if(!root)
+	return ans;
+	help(root,ans,temp);
+	return ans;
+}

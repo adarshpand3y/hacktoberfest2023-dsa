@@ -1,0 +1,51 @@
+//recursion/DFS
+#include<bits/stdc++.h>
+void help(vector<vector<int>>&image,int i,int j,int oldColor,int newColor){
+	if(i<0||i>=image.size()||j<0||j>=image[0].size()){
+		return;
+	}
+	
+	if(image[i][j]!=oldColor){
+		return;
+	}
+	if(image[i][j]==newColor){
+		return;
+	}
+	image[i][j] = newColor;
+	help(image,i,j+1,oldColor,newColor);
+	help(image,i,j-1,oldColor,newColor);
+	help(image,i+1,j,oldColor,newColor);
+	help(image,i-1,j,oldColor,newColor);
+}
+vector<vector<int>>floodfill(vector<vector<int>>&image,int x,int y,newColor){
+	int oldColor = image[x][y];
+	help(image,x,y,oldColor,newColor);
+	return image;
+}
+//BFS
+vector<vector<int>floodfill(vector<vector<int>>&image,int x,int y,int newColor){
+	int oldColor = image[x][y];
+	int m = image.size();
+	int n = image[0].size();
+	queue<pair<int,int>>q;
+	q.push({x,y});
+	
+	while(!q.empty()){
+		pair<int,int>currPixel = q.front();
+		q.pop();
+		
+		int i = currPixel.first;
+		int j = currPixel.second;
+		
+	if(i>=0 && i<m && j>=0 && j<n){
+		if(image[i][j]==oldColor && image[i][j]!=newColor){
+			image[i][j] = newColor;
+		q.push({i,j+1});
+		q.push({i,j-1});
+		q.push({i+1,j});
+		q.push({i-1,j});
+			}
+		}		
+	}	
+return image;
+}

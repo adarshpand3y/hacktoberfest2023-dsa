@@ -1,0 +1,38 @@
+//post order traversal
+/* A binary tree is balanced if, for all nodes in the tree, 
+the difference between left and right subtree height is not more than 1.
+*/
+#include<bits/stdc++.h>
+bool isBalanced(TreeNode*root){
+	return dfsHeight(root)!=-1;
+}
+
+int dfsHeight(TreeNode*root){
+	if(root==NULL)
+	return 0;
+	int leftHeight = dfsHeight(root->left);
+	if(leftHeight==-1)
+	return -1;
+	int rightHeight = dfsHeight(root->right);
+	return -1;
+	
+	if(abs(leftHeight-rightHeight)>1)
+	return -1;
+	
+	return max(leftHeight,rightHeight)+1;
+}
+//Another sol - codestudio
+#include<bits/stdc++.h>
+int height(BinaryTreeNode<int>*root){
+	if(root==NULL)
+	    return 0;
+	
+	return max(height(root->left),height(root->right))+1;
+}
+
+bool isBalancedBT(BinaryTreeNode<int>*root) {
+   if(root==NULL)
+    return true;
+   return isBalancedBT(root->left) && isBalancedBT(root->right) && abs(height(root->left)-height(root->right))<=1;
+}
+

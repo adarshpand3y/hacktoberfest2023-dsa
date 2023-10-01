@@ -1,0 +1,73 @@
+//variation 1 - Optimal solution
+int nCr(int n,int r){
+	long long res =1;
+	
+	for(int i=0;i<r;i++){
+		res = res*(n-i);
+		res = res/(i+1);
+	}
+	return res;
+}
+
+int pascalTriangle(int n,int c){
+	int element = nCr(r-1,c-1);
+	return element;
+}
+//variation 2
+int nCr(int n,int r){
+	long long res =1;
+	
+	for(int i=0;i<r;i++){
+		res = res*(n-i);
+		res = res/(i+1);
+	}
+	return res;
+}
+
+void pascalTriangle(int n){
+	for(int c=1;c<=n;c++){
+		cout<<nCr(n-1,c-1)<<" ";
+	}
+	cout<<"n";
+}
+//variation 3 -naive approach
+int nCr(int n, int r) {
+    long long res = 1;
+
+    for (int i = 0; i < r; i++) {
+        res = res * (n - i);
+        res = res / (i + 1);
+    }
+    return (int)(res);
+}
+vector<vector<int>> pascalTriangle(int n) {
+    vector<vector<int>> ans;
+    for (int row = 1; row <= n; row++) {
+        vector<int> tempLst; 
+        for (int col = 1; col <= row; col++) {
+            tempLst.push_back(nCr(row - 1, col - 1));
+        }
+        ans.push_back(tempLst);
+    }
+    return ans;
+}
+//Optimal solution
+vector<int>generateRow(int row){
+	long long ans =1;
+	vector<int>res;
+	res.push_back(1);
+	
+	for(int col=1;col<row;col++){
+		ans = ans*(row-col);
+		ans = ans/col;
+		res.push_back(ans);
+	}
+	return res;
+}
+vector<vector<int>>pascalTriangle(int n){
+	vector<vector<int>ans;
+	for(int row =1;row<=n;row++){
+		ans.push_back(generateRow(row));
+	}
+	return ans;
+}

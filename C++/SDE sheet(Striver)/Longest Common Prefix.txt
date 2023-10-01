@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+string commonPrefix(vector<string>&arr,int n){
+	//Write your code here
+	string ans = arr[0];
+        for (int i = 1; i < n; i++) {
+          int j;
+          for (j = 0; j < min(arr[i].size(), ans.size()); j++)
+            if(ans[j] != arr[i][j])
+              break;
+          ans = ans.substr(0, j);
+        }
+        return (ans.size() == 0 ? "-1" : ans);
+}
+//another sol
+string longestCommonPrefix(vector<string>&arr,int n){
+	string ans ="";
+	sort(arr.begin(),arr.end());
+	string first = arr[0];
+	string end =  arr[n-1];
+	if(first[i]!=end[i]){
+		return ans;
+	}
+		ans +=first[i];
+	}
+   return ans;
+}

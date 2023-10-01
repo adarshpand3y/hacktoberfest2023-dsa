@@ -1,0 +1,19 @@
+//using binary search
+int isPossible (vector<int>&a,int pages,int students){
+	int cnt =0;
+	int sumAllocated =0;
+	for(int i=0;i<a.size();i++){
+		if(sumAllocated+a[i]>pages){
+			cnt++;
+			sumAllocated = a[i];
+			if(sumAllocated >pages)
+			return false;
+		}
+		else{
+			sumAllocated +=a[i];
+		}
+	}
+	if(cnt<students)
+	return true;
+		return false;
+}

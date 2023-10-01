@@ -1,0 +1,58 @@
+//using greedy approach
+#include <algorithm>
+int maximumActivities(vector<int> &start, vector<int> &finish) {
+    int n = start.size();
+    vector<pair<int, int>> activity(n);
+
+    for (int i = 0; i < n; i++) {
+        activity[i].first = finish[i];
+        activity[i].second = start[i];
+    }
+
+    // Sort the meetings according to their Finishing Time.
+    sort(activity.begin(), activity.end());
+
+    int maxActivity = 1;
+    int currentTime = activity[0].first;
+
+    for (int i = 1; i < n; i++) {
+
+        // Find the next meeting available.
+        if (activity[i].second >= currentTime) {
+            maxActivity++;
+            currentTime = activity[i].first;
+        }
+    }
+    return maxActivity;
+}
+
+OR
+#include<bits/stdc++.h>
+struct job{
+    int start;
+    int end;
+};
+
+bool comp(struct job a,struct job b){
+    return (a.end<b.end);
+}
+int maximumActivities(vector<int>&start, vector<int>&finish) {
+    int n = start.size();
+    struct job v[n];
+
+    for(int i=0;i<n;i++){
+        v[i].start = start[i];
+        v[i].end = finish[i];
+    }
+    
+    sort(v,v+n,comp);
+    int ans =1;
+    int end = v[0].end;
+    for(int i=1;i<n;i++){
+        if(v[i].start>=end){
+            end = v[i].end;
+            ans++;
+        }
+    }
+    return ans;
+}

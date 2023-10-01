@@ -1,0 +1,47 @@
+//brute approach
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<int>majorityElement(vector<int>&v){
+	int n = v.size();
+	vector<int>vec;
+	
+	for(int i=0;i<n;i++){
+		if(vec.size()==0 ||vec[0]!=vec[i]){
+			int cnt =0;
+			for(int j=0;j<n;j++){
+				if(vec[j]==vec[i]){
+					cnt++;
+				}
+			}
+			
+			if(cnt>(n/3))
+				vec.push_back(vec[i]);
+		}
+		
+		if(vec.size()==2)
+		break;
+	}
+	return vec;
+}
+//better approach - using hashing
+vector<int>majorityElement(vector<int>v){
+	int n = v.size();
+	vector<int>ans;
+	
+	map<int,int>mp;
+	
+	//least occurence of the majority element
+	int mini = int(n/3)+1;
+	for(int i=0;i<n;i++){
+		mp[v[i]]++;
+	
+	//checking if v[i] is the majority element
+	 if(mp[v[i]]==mini){
+	 	ans.push_back(v[i]);
+	 }
+	 if(ans.size()==2)
+	 	break;
+	}
+	return ans;
+}

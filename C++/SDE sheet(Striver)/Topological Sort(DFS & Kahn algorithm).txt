@@ -1,0 +1,68 @@
+/*The linear ordering of nodes/vertices such that if there exists an edge between 2 nodes u,v 
+then ‘u’ appears before ‘v’.*/
+//using DFS - codestudio
+#include<bits/stdc++.h>
+void help(vector<vector<int>>&adj,vector<bool>&visited,stack<int>&st,int src){
+	visited[src] = true;
+	
+	for(int node:adj[src]){
+		if(!visited[node]){
+			help(adj,visited,st,node);
+		}
+	}
+	st.push(src);
+}
+vector<int>topologicalSort(vector<vector<int>&edges,int v,int e){
+	vector<vector<int>>adj(v);
+	for(int i=0;i<e;i++){
+		adj[edges[i][0]].push_back(edges[i][1]);
+	}
+	
+	vector<bool>visited(v);
+	stack<int>st;
+	
+	for(int i=0;i<v;i++){
+		if(!visited[i]){
+			help(adj,visited,st,i;)
+		}
+	}
+	vector<int>res;
+	while(!st.empty()){
+		res.push_back(st.top());
+		st.pop();
+	}
+	return res;
+}
+//kahn's algorithm - codestudio
+vector<int>topologicalSort(vector<vector<int>>&edges,int v,int e){
+	vector<vector<int>>adj(v);
+	for(int i=0;i<e;i++){
+		adj[edges[i][0]].push_back(edges[i][1]);
+	}
+	
+	vector<int>indegree(v);
+	for(auto it:edges){
+		indegree[it[1]]++;
+	}
+	
+	queue<int>q;
+	for(int i=0;i<v;i++){
+		if(indegree[i]==0){
+			q.push(i);
+		}
+	}
+	vector<int>res;
+	
+	while(!q.empty()){
+		int src = q.front();
+		q.pop();
+		res.push_back(src);
+		for(int node:adj[src]){
+			indegree[node]--;
+			if(indegree[node]==0){
+				q.push(node);
+			}
+		}
+	}
+	return res;
+}

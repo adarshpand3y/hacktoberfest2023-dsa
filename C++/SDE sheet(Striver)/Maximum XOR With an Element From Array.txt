@@ -1,0 +1,54 @@
+//brute approach
+#include<bits/stdc++.h>
+vector<int>maxSubQueries(vector<int>&arr,vector<vector<int>>&queries){
+	int n = arr.size();
+	int m = queries.size();
+	
+	vector<int>res(m,-1);
+	
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			if(arr[j]<=queries[i][1]){
+				res[i] = max(res[i],arr[j]^queries[i][0]);
+			}
+		}
+	}
+	return res;
+}
+//binary search
+vector<int>maxSubQueries(vector<int>&arr,vector<vector<int>>&queries){
+	int m = queries.size();
+	vector<int>res(m,-1);
+	
+	sort(arr.begin(),arr.end());
+	
+	for(int i=0;i<m;i++){
+		if(queries[i][1]<arr[0]){
+			continue;
+		}
+		int left =0;
+		int right = upper_bound(arr.begin(),arr.end(),queries[i][1])-arr.begin();
+		int ans =0,curr =0;
+		
+		for(int j=30;j>=0;j--){
+			if(queries[i][0]& (1<<j)){
+				if(!(arr[left] &(1<<j))){
+					ans = ans|(1<<j);
+					right = lower_bound(arr.begin()+left,arr.begin()+right,curr+(1<<j))-arr.begin();
+				}
+				else{
+					curr = curr|(1<<j);
+				}
+			}
+			else{
+				if(arr[right-1]&(1<<j)){
+					ans = ans|(1<<j);
+					curr = curr|(1<<j);
+					left = lower_bound(arr.begin()+left,arr.begin()+right,curr)-arr.begin();
+				}
+			}
+		}
+		return [i] = ans;
+	}
+	return res;
+}

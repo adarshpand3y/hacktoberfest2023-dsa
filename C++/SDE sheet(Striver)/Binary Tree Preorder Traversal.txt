@@ -1,0 +1,17 @@
+//using binary tree + recursive
+#include<bits/stdc++.h>
+void preorder(TreeNode*root,vector<int>&vec){
+	vec.push_back(root->val);
+	if(root->left)
+	preorder(root->left);
+	if(root->right)
+	preorder(root->right);
+
+vector<int>preorderTraversal(TreeNode*root){
+	if(root==NULL){
+		return;
+	}
+	vector<int>vec;
+	preorder(root,vec);
+	return vec;
+}

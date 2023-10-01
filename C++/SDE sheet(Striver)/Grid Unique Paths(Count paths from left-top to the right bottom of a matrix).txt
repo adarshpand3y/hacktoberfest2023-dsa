@@ -1,0 +1,36 @@
+//recursive approach
+#include<bits/stdc++.h>
+using namespace std;
+
+int countPaths(int i,int j,int n,int m){
+	if(i==(n-1)||j==(m-1))
+		return 1;
+	if(i>=n || j>=m)
+	return 0;
+	else
+	return countPaths(i+1,j,n,m)+countPaths(i,j+1,n,m);
+}
+
+int uniquePaths(int n,int m){
+	return countPaths(0,0,n,m);
+}
+//Dynamic programming solution
+int countPaths(int i,int j,int n,int m,vector<vector<int>>&grid){
+	if(i==(n-1)||j==(m-1))
+	return 1;
+	if(i>=n || j>=m)
+	return 0;
+	if(grid[i][j]!=-1)
+	return grid[i][j];
+	else
+	return grid[i][j] = countPaths(i+1,j,n,m,grid)+countPaths(i,j+1,n,m,grid);
+}
+
+int uniquePaths(int m,int n){
+	vector<vector<int>>grid(m+1,vector<int>(n+1,-1));
+	
+	int num = countPaths(0,0,n,m,grid);
+	if(m==1 && n==1)
+		return num;
+	return grid[0][0];
+}

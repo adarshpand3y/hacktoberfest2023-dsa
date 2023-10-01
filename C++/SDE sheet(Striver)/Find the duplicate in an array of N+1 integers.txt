@@ -1,0 +1,43 @@
+//Using sorting
+#include<bits/stdc++.h>
+using namespace std;
+int findDuplicates(vector<int>&arr){
+	int n = arr.size();
+	sort(arr.begin(),arr.end());
+	for(int i=0;i<n-1;i++){
+		if(arr[i] == arr[i+1]){
+			return arr[i];
+		}
+	}
+}
+//using frequency array
+int findDuplicates(vector<int>&arr){
+	int n = arr.size();
+	int freq[n+1] = {0};
+	
+	for(int i=0;i<n;i++){
+		if(freq[arr[i]]==0){
+			freq[arr[i]] +=1;
+		}
+		else{
+			return arr[i];
+		}
+	}
+	return 0;
+
+//Another solution
+#include <bits/stdc++.h> 
+pair<int,int> missingAndRepeating(vector<int> &arr, int n) {
+    for(int i=0; i<n; i++) {
+        while(arr[i] != arr[arr[i]-1])
+            swap(arr[i], arr[arr[i]-1]);
+    }
+    
+    for(int i=0; i<n; i++) {
+        if(arr[i] != i+1) {
+            return {i+1, arr[i]};
+        }
+    }
+    
+    return {};
+}
