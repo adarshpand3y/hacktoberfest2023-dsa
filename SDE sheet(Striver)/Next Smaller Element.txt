@@ -1,0 +1,36 @@
+//using stack
+#include<bits/stdc++.h>
+void immediateSmaller(vector<int>&arr){
+	int n = arr.size();
+	stack<int>st;
+	st.push(arr[0]);
+	
+	for(int i = 1;i<n;i++){
+// If the top is greater than the current element then 
+// copy the current element to previous
+		if(st.top()>arr[i]){
+			arr[i-1] = arr[i];
+		}
+		else{
+			arr[i-1]= -1;
+		}
+//Push the current element to top for next Iteration
+		st.push(arr[i]);
+	}
+//Finally for the last element put it as -1
+	arr[n-1] = -1;
+}
+
+//using without using extra space
+void immediateSmaller(vector<int>&arr){
+	int n = arr.size();
+	for(int i=n-1;i>=0;i--){
+		if(arr[i+1]<arr[i]){
+			arr[i] = arr[i+1];
+		}
+		else{
+			arr[i]  =-1;
+		}
+	}
+	arr[n-1] = -1;
+}

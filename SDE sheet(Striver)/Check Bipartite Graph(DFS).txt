@@ -1,0 +1,31 @@
+//using (DFS) - codestudio
+#include<bits/stdc++.h>
+bool dfs(int i,vector<vector<int>>&arr,int color,vector<int>&visited){
+	visited[i] = color;
+	int n = arr.size();
+	for(int j=0;j<n;j++){
+		if(arr[i][j]==1){
+			if(visited[j]==-1){
+				if(!dfs(j,arr,(color+1)%2,visited)){
+					return false;
+				}
+			}
+			else{
+				if(visited[j]==color){
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+bool isGraphPartitite(vector<vector<int>>&edges){
+	vector<int>visited(edges.size(),-1);
+	for(int i=0;i<edges.size();i++){
+		if(visited[i]==-1){
+			if(!dfs(i,edges,0,visited))
+			return false;
+		}
+	}
+	return true;
+}

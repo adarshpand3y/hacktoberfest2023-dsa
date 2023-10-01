@@ -1,0 +1,116 @@
+//brute approach - striver
+#include<bits/stdc++.h>
+using namespace std;
+int longestConsecutive(vector<int>&nums){
+	if(nums.size()==0){
+		return 0;
+	}
+	
+	sort(nums.begin(),nums.end());
+	
+	int ans=1;
+	int prev = nums[0];
+	int curr = 1;
+	
+	for(int i=1;i<nums.size();i++){
+		if(nums[i]==prev+1){
+			curr++;
+		}
+		else if(nums[i]!=prev){
+			curr =1;
+		}
+		prev = nums[i];
+		ans = max(ans,curr);
+	}
+	return ans;
+}
+//Optimal solution - hashset (striver)
+int longestConsecutive(vector<int>&nums){
+	set<int>st;
+	for(int i:nums){
+		st.insert(i);
+	}
+	int longestStreak =0;
+	
+	for(int i:nums){
+		if(!st.count(i-1)){
+			int currNum = i;
+			int currStreak = 1;
+			
+		while(st.count(currNum+1)){
+			currNum +=1;
+			currStreak +=1;
+		}
+		longestStreak =  max(longestStreak,currStreak);
+		}
+	}
+	return longestStreak;
+}
+//sorting
+int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
+    // Sort the given array in ascending order.
+    sort(arr.begin(), arr.end());
+
+    // To store length of longest consecutive sequence.
+    int mx = 0;
+
+    // To store the length of current consecutive Sequence.
+    int count = 0;
+
+    for (int i = 0; i < n; i++) {
+
+        // Check if previous value is consecutive to the current value.
+        if (i > 0 && (arr[i] == arr[i - 1] + 1)) {
+            count++;
+        }
+
+        // Skip if the current value is equals to the previous value.
+        else if (i > 0 && arr[i] == arr[i - 1]) {
+            continue;
+        }
+        // Reseting count for next upcoming consecutive sequence.
+        else {
+            count = 1;
+        }
+
+        mx = max(mx, count);
+        
+    }
+
+    return mx;
+}
+//Hashtable
+int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
+    // To store length of longest consecutive sequence.
+    int mx = 0;
+
+    // To store the length of current consecutive Sequence.
+    int count = 0;
+
+    // To store all the unique elements of array.
+    unordered_set<int> set;
+
+    for (int i = 0; i < n; i++) {
+        set.insert(arr[i]);
+    }
+
+    for (int i = 0; i < n; i++) {
+        int previousConsecutiveElement = arr[i] - 1;
+
+        if (set.find(previousConsecutiveElement) == set.end()) {
+
+            // 'arr[i]' is the first value of consecutive sequence.
+            int j = arr[i];
+            
+            while (set.find(j) != set.end()) {
+                // The next consecutive element by will be j + 1.
+                j++;
+            }
+
+            // Update maximum length of consecutive sequence.
+            mx = max(mx, j - arr[i]);
+        }
+    }
+
+    return mx;
+}

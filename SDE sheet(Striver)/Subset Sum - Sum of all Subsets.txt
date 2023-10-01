@@ -1,0 +1,14 @@
+void subsetSumsHelp(int ind,vector<int>&arr,int n,vector<int>&ans,int sum){
+	if(ind==n){
+		ans.push_back(sum);
+		return;
+	}
+	subsetSumHelp(ind+1,arr,n,ans,sum + arr[ind]);
+	subsetSumHelp(ind+1,arr,n,ans,sum);
+}
+vector<int>subsetSums(vector<int>arr,int n){
+	vector<int>ans;
+	subsetSumHelp(0,arr,n,ans,0);
+	sort(ans.begin(),ans.end());
+	return ans;
+}

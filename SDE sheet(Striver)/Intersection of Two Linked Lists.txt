@@ -1,0 +1,40 @@
+//brute approach
+#include<bits/stdc++.h>
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+    Node *firstHeadTmp = firstHead;
+    //For every node of first list,traverse the second list and check if there is intersection.
+    while (firstHeadTmp != NULL)
+    {
+        for (Node *secondHeadTmp = secondHead; secondHeadTmp != NULL; secondHeadTmp = secondHeadTmp->next)
+        {
+            if (firstHeadTmp == secondHeadTmp)
+            {
+                return firstHeadTmp;
+            }
+        }
+        firstHeadTmp = firstHeadTmp->next;
+    }
+
+    //If there is no intersection, return NULL.
+    return NULL;
+}
+//hashing approach
+Node*findIntersection(Node*firstHead,Node*secondHead){
+	Node*firstHeadTmp = firstHead;
+	unordered_set<Node*>st;
+	
+	while(firstHeadTmp!=NULL){
+		st.insert(firstHeadTmp);
+		firstHeadTmp = firstHeadTmp->next;
+	}
+	node*secondHeadTmp = secondHead;
+	
+	while(secondHeadTmp!=NULL){
+		if(st.find(secondHeadTmp)!=st.end()){
+			return secondHeadTmp;
+		}
+		secondHeadTmp = secondHeadTmp->next;
+	}
+	return NULL;
+}

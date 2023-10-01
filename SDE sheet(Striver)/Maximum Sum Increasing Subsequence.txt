@@ -1,0 +1,37 @@
+//using DP
+#include<bits/stdc++.h>
+using namespace std;
+int maxIncreasingDumbbellsSum(vector<int>&arr, int n)
+{
+	// Write your code here
+		int ans = arr[0];
+		vector<int>dp = arr;
+		for(int i=0;i<n;i++){
+			for(int j=0;j<i;j++){
+				if(arr[i]>arr[j]){
+					if(dp[j]+arr[i]>dp[i]){
+						dp[i] = arr[i]+dp[j];
+					}
+				}
+			}
+			ans = max(ans,dp[i]);
+		}
+		return ans;
+}
+//Another sol -DP
+int maxIncreasingDumbellsSum(vector<int>&arr,int n){
+	int dp[n];
+	int totalWeight = INT_MIN;
+	for(int i=0;i<n;i++){
+		dp[i] = arr[i];
+	}
+	for(int i=0;i<n;i++){
+		for(int j=0;j<i;j++){
+			if(arr[i]>arr[j] && dp[i]<dp[j]+arr[i]){
+				dp[i] = dp[j]+arr[i];
+			}
+		}
+		totalWeight = max(totalWeight,dp[i]);
+	}
+	return totalWeight;
+}

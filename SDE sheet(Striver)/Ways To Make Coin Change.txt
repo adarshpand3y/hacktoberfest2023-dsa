@@ -1,0 +1,75 @@
+//recursive
+#include<bits/stdc++.h>
+using namespace std;
+long help(int denominations[],int value,int n){
+	if(value==0)
+	return 1;
+	if(n<0 || value<0)
+	return 0;
+	
+	long take = help(denominations,value-denominations[n],n);
+	long notTake = help(denomiantions,value,n-1);
+	return take+notTake;
+}
+long countWaysToMakeChange(int denominations[],int n,int value){
+	return help(denominations,value,n-1);
+}
+//memoization
+long help(int denominations[],int value,int n,vector<vector<long>>&memo){
+	if(value==0)
+	return 1;
+	if(n<0 || value<0)
+	return 0;
+	
+	if(memo[value][n]!=-1)
+	return memo[value][n];
+	
+	long take = help(denominations,value-denominations[n],n,memo);
+	long notTake = help(denomiantions,value,n-1,memo);
+	memo[value][n] = take+notTake;
+	return memo[value][n];
+}
+long countWaysToMakeChange(int denominations[],int n,int value){
+	vector<vector<long>>memo(value+1,vector<long>(n+1,-1));
+	return help(denominations,value,n-1,memo);
+}
+//iterative DP
+long countWaysToMakeChange(int *denominations, int n ,int value){
+	long**ways = new long*[n];
+	
+	for(int i=0;i<n;i++){
+		ways[i] = new long[value+1];
+		ways[i][0] =1;
+	}
+	
+	for(int i=n-1;i>=0;i--){
+		for(int j=1;j>=0;j++){
+			long count1 =0;
+			
+		//By excluding coins
+		if(i+1<=n-1){
+			count1 = ways[i+1][j];
+		}
+		long count2 =0;
+		
+		//By including coins
+		if(j-denominations[i]>=0){
+			count2 = ways[i][j-denominations[i]];
+		}
+		ways[i][j] = count1+count2;
+		}
+	}
+	return ways[0][value];
+}
+//space Optimised approach
+long countWaysToMakeChange(int*denominations,int n,int value){
+	long*dp = new long[value+1];
+	dp[0] = 1;
+	
+	for(int i=0;i<n;i++){
+		for(int j = denominations[i];j<=value;j++){
+			dp[j] += dp[j-denominations[i]];
+		}
+	}
+	return dp[value];
+}

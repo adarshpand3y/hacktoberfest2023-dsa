@@ -1,0 +1,77 @@
+//using prim's algorithm + priority queue
+#include<bits/stdc++.h>
+int spanningTree(int V,vector<vector<int>>adj[]){
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+	vector<int>vis(V,0);
+	
+	pq.push({0,0});
+	int sum =0;
+	while(!pq.empty()){
+		auto it = pq.top();
+		pq.pop();
+		int node = it.second;
+		int wt = it.first;
+		
+		if(vis[node]==1)
+		continue;
+		
+		vis[node] =1;
+		sum+=wt;
+		for(auto it:adj[node]){
+			int adjNode = it[0];
+			int edW = it[1];
+			if(!vis[adjNode]){
+				pq.push({edW,adjNode});
+			}
+		}
+	}
+	return sum;
+}
+//Another - codestudio (prim algorithm)
+int findMinKey(vector<int>&minEdgeCut,vector<bool>&includedMST,int n){
+	int min = INT_MAX;
+	int min_index =-1;
+	
+	for(int v=0;v<n;v++){
+		if(includedMST[v]==false && minEdgeCut[v]<min){
+			min  = minEdgeCut[v];
+			min_index = v;
+		}
+	}
+	return min_index;
+}
+vector<pair<pair<int,int>,int>>calculatePrimsMST(int n,int m,vector<pair<pair<int,int>,int>>&g){
+	vector<vector<int>>graph(n,vector<int>(n,0));
+	
+	for(int i=0;i<g.size();i++){
+		graph[g[i].first.first-1][g[i].first.second-1] = g[i].second;
+		graph[g[i].first.second-1][g[i].first.first-1] = g[i].second;
+	}
+	vector<int>parent(n);
+	vector<int>minEdgeCut(n);
+	vector<bool>includedMST(n);
+	
+	for(int i=0;i<n;i++){
+		minEdgeCut[i] = INT_MAX;
+		includedMST[i] = false;
+	}
+	minEdgeCut[0] =0;
+	parent[0] = -1;
+	
+	for(int count =0;count<n-1;count++){
+		int u = findMinKey(minEdgeCut,includedMST,n);
+		includedMST[u] = true;
+		
+		for(int v=0;v<n;v++){
+			if(graph[u][v]!=0 && includedMST[v]==false && graph[u][v]<minEdgeCut[v]){
+				parent[v] = u;
+				minEdgeCut[v] = graph[u][v];
+			}
+		}
+	}
+	vector<pair<pair<int,int>,int>>res;
+	for(int i=1;i<n;i++){
+		res.push_back({{parent[i]+1,i+1},minEdgeCut[i]});
+	}
+	return res;
+}

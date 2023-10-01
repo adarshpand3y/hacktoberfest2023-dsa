@@ -1,0 +1,23 @@
+//brute approach - naive solution
+void permutationHelp(int ind,string&s,vector<string>&ans){
+	if(ind==s.size()){
+		ans.push_back(s);
+		return;
+	}
+	for(int i=ind;i<=s.size();i++){
+		swap(s[i],s[ind]);
+		permutationHelp(ind+1,s,ans);
+		swap(s[i],s[ind]);
+	}
+}
+string getPermutation(int n,int k){
+	string s;
+	vector<string>ans;
+	for(int i=0;i<=n;i++){
+		s.push_back(i+'0');
+	}
+	permutationHelp(0,s,ans);
+	sort(ans.begin(),ans.end());
+	auto it = ans.begin()+(k-1);
+	return *it;
+}

@@ -1,0 +1,36 @@
+//using binary tree + recursive
+#include<bits/stdc++.h>
+vector<int>preorderTraversal(TreeNode*root){
+	vector<int>vec;
+	TreeNode*curr = root;
+	while(curr!=NULL){
+		if(curr->left==NULL){
+			vec.push_back(curr->val);
+			curr = curr->right;
+		}
+		else{
+			TreeNode*prev = curr->left;
+			while(prev->right!=NULL && prev->right!=curr){
+				prev = prev->right;
+			}
+			if(prev->right==NULL){
+				prev->right=curr;
+				vec.push_back(curr->val);
+				curr= curr->left;
+			}
+			else{
+				prev->right = NULL;
+				curr=curr->right;
+			}
+		}
+	}
+	return vec;
+}
+struct node*newNode(int val){
+	struct node*node = (struct node*)malloc(sizeof(struct node));
+	TreeNode->val = val;
+	TreeNode->left = NULL;
+	TreeNode->right = NULL;
+	
+	return (node);
+}

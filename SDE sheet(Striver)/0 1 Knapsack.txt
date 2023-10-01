@@ -1,0 +1,50 @@
+//using recursion
+#include<bits/stdc++.h>
+using namespace std;
+
+int help(vector<int>&values,vector<int>&weights,int curIndex,int w){
+	if(curIndex==values.size()||w==0){
+		return 0;
+	}
+	int res =0;
+	if(weights[curIndex]<=w){
+		int take = values[curIndex]+help(values,weights,curIndex+1,w-weights[curIndex]);
+		int notTake = help(values,weights,curIndex+1,w);
+		res = max(take,notTake);
+	}
+	else{
+		res = help(values,weights,curIndex+1,w);
+	}
+	return res;
+}
+
+int maxProfit(vector<int>&values,vector<int>&weights,int n,int w){
+	return help(values,weights,0,w);
+}
+//using dp(bottom up)
+int maxProfit(vector<int>&values,vector<int>&weights,int n,int w){
+	vector<vector<int>>res(n+1,vector<int>(w+1,0));
+	
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=w;j++){
+			if(weights[i-1]<=w){
+				res[i][j] = max(res[i-1][j],values[i-1]+res[i-1][j-weights[i-1]]);
+			}
+			else{
+				res[i][j]  = res[i-1][j];
+			}
+		}
+	}
+	return res[n][w];
+}
+//Optimsised space DP
+int maxProfit(vector<int>&values,vector<int>&weights,int n,int w){
+	vector<int>res(w+1,0);
+	
+	for(int i=0;i<n;i++){
+		for(int j=w;j>=weights[i];j--){
+			res[j] = max(res[j],values[i]+res[j-weights[i]]);
+		}
+	}
+	return res[w];
+}

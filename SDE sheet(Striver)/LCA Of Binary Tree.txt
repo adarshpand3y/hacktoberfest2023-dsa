@@ -1,0 +1,46 @@
+//recursion - striver sol
+/* lowest common ancestor(LCA) is defined between two nodes x and y as the
+lowest node in T that has both x and y as descendants
+*/
+#include<bits/stdc++.h>
+TreeNode*lowestCommonAncestor(TreeNode*root,TreeNode*p,TreeNode*q){
+	if(root==NULL||root==p||root==q){
+		return root;
+	}
+	TreeNode*left = lowestCommonAncestor(root->left);
+	TreeNode*right = lowestCommonAncestor(root->right);
+	
+	if(left==NULL){
+		return right;
+	}
+	else if(right==NULL){
+		return right;
+	}
+	else{
+		return root;
+	}
+}
+//Another sol - codestudio
+int lowestCommonAncestor(TreeNode<int>*root, int x, int y)
+{
+	if(root==NULL){
+        return -1;
+    }
+    if(root->data==x||root->data==y){
+        return root->data;
+    }
+    int leftAns = lowestCommonAncestor(root->left,x,y);
+    int rightAns = lowestCommonAncestor(root->right,x,y);
+
+    if(leftAns!=-1 && rightAns!=-1){
+        return root->data;
+    } 
+    else if (leftAns != -1 && rightAns == -1) {
+      return leftAns;
+    } 
+    else if (rightAns != -1 && leftAns == -1){
+        return rightAns;
+    }
+    else
+    return -1;
+}

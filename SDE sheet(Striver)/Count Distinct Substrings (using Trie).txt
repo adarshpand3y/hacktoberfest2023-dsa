@@ -1,0 +1,13 @@
+//using hashset
+#include<bits/stdc++.h>
+int countDistinctSubstrings(string&s){
+	unordered_set<string>distinctStrings;
+	int n = s.length();
+	for(int i=0;i<n;i++){
+		for(int j=i;j<n;j++){
+		string temp = s.substr(i,j-i+1);
+		distinctStrings.insert(temp);
+	}
+}
+return (distinctStrings.size()+1);
+}

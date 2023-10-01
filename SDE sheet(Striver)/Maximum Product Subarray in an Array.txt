@@ -1,0 +1,47 @@
+//brute approach
+int maxProductSubarray(vector<int>&nums){
+	int res  = INT_MIN;
+	for(int i=0;i<nums.size();i++){
+		for(int j=i+1;j<nums.size();j++){
+			int prod = 1;
+			for(int k=i;k<=j;k++)
+			prod *=nums[k];
+			res = max(res,prod);
+		}
+	}
+	return res;
+}
+//using kadane algorithm
+#include<bits/stdc++.h>
+using namespace std;
+
+int maxProductSubarray(vector<int>&nums){
+	int prod1 = nums[0];
+	int prod2 = nums[0];
+	int res = nums[0];
+	
+	for(int i=1;i<nums.size();i++){
+		int temp = max({nums[i],prod1*nums[i],prod2*nums[i]});
+		prod2 = min({nums[i],prod1*nums[i],prod2*nums[i]});
+		prod1 = temp;
+		
+		res = max(res,prod1);
+	}
+	return res;
+}
+//Another
+int maximumProduct(vector<int> &arr, int n)
+{
+	int prod1 = arr[0];
+	int prod2 = arr[0];
+	int res = arr[0];
+	
+	for(int i=1;i<arr.size();i++){
+		int temp = max({arr[i],prod1*arr[i],prod2*arr[i]});
+		prod2 = min({arr[i],prod1*arr[i],prod2*arr[i]});
+		prod1 = temp;
+		
+		res = max(res,prod1);
+	}
+	return res;
+}

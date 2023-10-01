@@ -1,0 +1,66 @@
+//brute approach
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>maxMinWindow(vector<int>&arr,int n){
+	vector<int>ans(n);
+	for(int i=0;i<n;i++){
+		ans[i] = INT_MIN;
+	}
+	
+	for(int i=0;i<n;i++){
+		for(int j=i;j<n;j++){
+			int start =i;
+			int end =j;
+		int temp = INT_MAX;
+		for(int k=start;k<=end;k++){
+			temp = min(temp,arr[k]);
+		}
+		int length = end-start;
+		ans[length] = max(ans[length],temp);
+		}
+	}
+	return ans;
+}
+//Another sol
+vector<int> maxMinWindow(vector<int> a, int n) {
+    // Write your code here.
+    vector<int>left(n,-1);
+    vector<int>right(n,n);
+    stack<int>st;
+
+    for(int i=0; i<n; i++){
+        while(!st.empty() && a[st.top()] >= a[i])
+		st.pop();
+
+            if(!st.empty()){
+                left[i] = st.top();
+            }
+            st.push(i);
+   }
+
+    while(!st.empty())
+		st.pop();
+    for(int i=n-1;i>=0;i--){  
+        while(!st.empty() && a[st.top()] >= a[i])
+		st.pop();
+            if(!st.empty()){
+                right[i] = st.top();
+            }
+        st.push(i);
+    }
+
+    vector<int>ans(n+1,INT_MIN);
+    for(int i=0;i<n;i++){
+        ans[right[i] - left[i] - 1] = max(ans[right[i] - left[i] - 1], a[i]);
+    }
+   
+    for(int i=n-1; i>=1;i--){
+        ans[i] = max(ans[i+1] ,ans[i]);
+    }
+    vector<int>temp(n);
+    for(int i=0;i<n;i++){
+        temp[i] = ans[i+1];
+    }
+
+    return temp;
+}

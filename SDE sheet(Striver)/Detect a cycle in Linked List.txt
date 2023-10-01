@@ -1,0 +1,27 @@
+//using hashing
+bool cycleDetect(node*head){
+	unordered_set<node*>st;
+	while(head!=NULL){
+		if(st.find(head)!=st.end())
+		return true;
+		st.insert(head);
+		head = head->next;
+	}
+	return false;
+}
+
+//using two pointer
+bool cycleDetect(node*head){
+	if(head==NULL)
+	return false;
+	node*slow = head;
+	node*fast = head;
+	
+	while(fast->next!=NULL && fast->next->next!=NULL){
+		fast = fast->next->next;
+		slow = slow->next;
+		if(fast==slow)
+		return true;
+	}
+	return false;
+}

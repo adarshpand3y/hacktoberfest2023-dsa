@@ -1,0 +1,56 @@
+//brute app
+#include<bits/stdc++.h>
+int largestArea(int arr[],int n){
+	int maxArea =0;
+	for(int i=0;i<n;i++){
+		int minHeight = INT_MAX;
+		for(int j=i;j<n;j++){
+			minHeight = min(minHeight,arr[i]);
+			maxArea = max(maxArea,minHeight*(j-i+1));
+		}
+	}
+	return maxArea;
+}
+//Optimised approach - two pass method
+int largestArea(int arr[],int n){
+	stack<int>st;
+	int maxArea =0;
+	int n= arr.size();
+	for(int i=0;i<n;i++){
+		while(!st.empty() && (i==n||arr[st.top()]>=arr[i])){
+			int height = arr[st.top()];
+			st.pop();
+			int width;
+			if(st.empty())
+				width =i;
+			else
+				width = i-st.top()-1;
+			maxArea = max(maxArea,width*height);
+		}
+		st.push(i);
+	}
+	return maxArea;
+}
+//Another sol - CN
+#include<bits/stdc++.h>
+ int largestRectangle(vector < int > & heights) {
+    stack<int>s;
+    int maxArea=INT_MIN;
+    for(int i=0;i<=heights.size();i++){
+        while(!s.empty() && (i==heights.size() || heights[s.top()]>=heights[i])){
+            int height=heights[s.top()];
+            s.pop();
+            int width=0;
+            if(s.empty()){
+                width=i;
+            }
+            else{
+                width=i-s.top()-1;
+            }
+            maxArea=max(maxArea,width*height);
+
+        }
+        s.push(i);
+    }
+    return maxArea;
+ }

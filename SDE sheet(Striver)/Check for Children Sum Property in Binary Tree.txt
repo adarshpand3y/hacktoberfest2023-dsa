@@ -1,0 +1,44 @@
+//recursion - codestudio
+/*The children sum property is defined as, For every node of the tree, 
+the value of a node is equal to the sum of values of its children(left child and right child)
+*/
+#include<bits/stdc++.h>
+bool isParentSum(Node *root){
+    // Write your code here.
+    if(root==NULL)
+    return true;
+    if(!root->left && !root->right)
+    return true;
+    if(root->left && root->right && root->left->data+root->right->data!=root->data)
+    return false;
+    if(root->left && !root->right && root->left->data!=root->data)
+    return false;
+    if(root->right && !root->left && root->right->data!=root->data)
+    return false;
+    return isParentSum(root->left)&& isParentSum(root->right);
+}
+//Another sol - recusrive
+bool isParentSum(Node *root)
+{
+    if (root == NULL || (root->left == NULL && root->right == NULL))
+    {
+        return true;
+    }
+
+    if (root->left)
+    {
+        root->data -= root->left->data;
+    }
+    if (root->right)
+    {
+        root->data -= root->right->data;
+    }
+
+    if (root->data == 0)
+    {
+       
+        return isParentSum(root->left) && isParentSum(root->right);
+    }
+
+    return false;
+}

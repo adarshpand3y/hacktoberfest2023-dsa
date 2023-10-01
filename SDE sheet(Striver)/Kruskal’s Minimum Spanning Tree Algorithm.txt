@@ -1,0 +1,43 @@
+//using kruskal's algorithm
+#include<bits/stdc++.h>
+struct DSU{
+	vector<int>e;
+	DSU(int n){
+		e = vector<int>(n,-1);
+	}
+	int parent(int x){
+		return e[x]<0?x:e[x]=parent(e[x]);
+	}
+	int size(int x){
+		return -e[parent(x)];
+	}
+	
+	bool union_sets(int x,int y){
+		x = parent(x);
+		y = parent(y);
+		if(x==y)
+		return false;
+		if(e[x]>e[y])
+		swap(x,y);
+		e[x]+=e[y];
+		e[y] =x;
+		return true;
+	}
+};
+
+bool compare(vector<int>const &a,vector<int>const &b){
+	return a[2]<b[2];
+}
+int kruskalMST(int n,vector<vector<int>>&edges){
+	DSU d(n+1);
+	int cost =0;
+	
+	sort(edges.begin(),edges.end(),compare);
+	for(auto &edge:edges){
+		if(d.parent(edge[0])!=d.parent(edge[1])){
+			cost+=edge[2];
+		d.union_sets(edge[0],edge[1]);
+		}
+	}
+	return cost;
+}

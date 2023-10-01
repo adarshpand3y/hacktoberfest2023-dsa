@@ -1,0 +1,110 @@
+//using BFS + queue
+#include<bits/stdc++.h>
+int orangesRotting(vector<vector<int>>&grid){
+	if(grid.empty())
+		return 0;
+	int m = grid.size();
+	int n = grid[0].size();
+	int days =0,tot = 0,count =0;
+	queue<pair<int,int>>rotten;
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			if(grid[i][j]!=0)
+			tot++;
+			if(grid[i][j]==2)
+			rotten.push({i,j});
+		}
+	}
+	int dx[4] = {0,0,1,-1};
+	int dy[4] = {1,-1,0,0};
+	
+	while(!rotten.empty()){
+		int k = rotten.size();
+	    count +=k;
+	    while(k--){
+	    	int x = rotten.front().first;
+	    	int y = rotten.front().second;
+	    	rotten.pop();
+	    for(int i=0;i<4;i++){
+	    	int nx = x+dx[i];
+	    	int ny = y+dy[i];
+	    if(nx<0||ny<0||nx>=m||ny>=n||grid[nx][ny]!=-1)
+	    continue;
+	    grid[nx][ny] =2;
+	    rotten.push({nx,ny});
+		}
+	}
+	if(!rotten.empty())
+	days++;
+}
+return tot==count?days:-1;
+}
+
+//Another sol
+int isValid(vector<vector<bool>>& visited, int i, int j, int n, int m)
+{
+    return i >= 0 && i < n && j >= 0 && j < m && visited[i][j] == false;
+}
+
+int minTimeToRot(vector<vector<int>>& grid, int n, int m)
+{
+    int time = 0;
+    vector<vector<bool>> visited(n, vector<bool>(m, false));
+    queue<pair<int, int>> q;
+
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+            if(grid[i][j] == 2)
+            {
+                q.push({i, j});
+                visited[i][j] = true;
+            }
+        }
+    }
+
+    int i, j;
+
+    int dx[] = {0, 0, 1, -1};
+    int dy[] = {1, -1, 0, 0};
+
+    while(q.size() > 0)
+    {
+        int levelSize = q.size();
+        while(levelSize--)
+        {
+            pair<int,int> currCell = q.front();
+            q.pop();
+
+            i = currCell.first;
+            j = currCell.second;
+            
+            for(int k = 0; k < 4; k++)
+            {
+                int nextI = i + dx[k];
+                int nextJ = j + dy[k];
+
+                if(isValid(visited, nextI, nextJ, n, m) && grid[nextI][nextJ] == 1)
+                {
+                    q.push({nextI, nextJ});
+                    visited[nextI][nextJ] = true;
+                }
+            }
+        }
+        time++;
+    }
+
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+            if(grid[i][j] == 1 && visited[i][j] == false)
+            {
+                return -1;
+            }
+        }
+    }
+
+    return max(0, time - 1);
+}

@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+vector<int>solve(vector<int>array,vector<int>ans){
+    for(int i=0;i<array.size();i++){
+        ans.push_back(array[i]);
+    }
+    return ans;
+}
+vector<int>mergeKSortedArrays(vector<vector<int>>&Arrays, int k)
+{
+    // Write your code here. 
+    vector<int>ans;
+    int n = Arrays.size();
+    for(int i=0;i<k;i++){
+        ans = solve(Arrays[i],ans);
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+}

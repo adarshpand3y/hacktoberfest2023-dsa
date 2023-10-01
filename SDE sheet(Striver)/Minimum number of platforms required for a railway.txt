@@ -1,0 +1,36 @@
+//naive approach
+int countPlatforms(int n,int arr[],int dept[]){
+	int ans =1;
+	for(int i=0;i<=n-1;i++){
+		int count =1;
+		for(int j=i+1;j<=n-1;j++){
+			if((arr[i]>=arr[j] && arr[i]<=dept[j])||(arr[j]>=arr[i] && arr[j]<=dept[i])){
+				count++;
+			}
+		}
+		ans = max(ans,count);
+	}
+	return ans;
+}
+
+//Optimal - sorting
+int countPlatforms(int n,int arr[],int dept[]{
+	sort(arr,arr+n);
+	sort(dept,dept+n);
+	
+	int ans =1;
+	int count =1;
+	int i=1,j=0;
+	while(i<n && j<n){
+		if(arr[i]<=dept[j]){
+			count++;
+			i++;
+		}
+		else{
+			count--;
+			j++;
+		}
+		ans = max(ans,count);
+	}
+	return ans;
+}

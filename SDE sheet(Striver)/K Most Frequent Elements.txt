@@ -1,0 +1,59 @@
+//priority queue + hashmap
+#include<bits/stdc++.h>
+vector<int>KMostFrequent(int n, int k, vector<int>&arr)
+{
+    // Write your code here.
+   if(k==n){
+       return arr;
+   }
+   unordered_map<int,int>mp;
+   for(int i:arr){
+       mp[i]++;
+   }
+
+   priority_queue<pair<int,int>>pq;
+   for(auto x:mp){
+       pq.push({x.second,x.first});
+   }
+
+   vector<int>ans(k);
+   for (int i = 0; i < k; i++) {
+     ans[i] = pq.top().second;
+     pq.pop();
+   }
+   return ans;
+}
+//100% better solution
+vector<int> KMostFrequent(int n, int k, vector<int> &arr)
+{
+    vector<int>ans;
+    int min=INT_MIN;
+    for(int i=0;i<n;i++){
+        if(arr[i]>min){
+            min=arr[i];
+        }
+    }
+
+    int x=min;
+    int a[x+1]={0};
+    for(int i=0;i<n;i++){
+        a[arr[i]]++;
+    }
+
+    int t=0;
+    while(k--){
+       int m=INT_MIN;
+        for(int i=0;i<n;i++){
+            if(a[arr[i]]>m){
+                m=a[arr[i]];
+                t=arr[i];
+            }
+        }
+
+        ans.push_back(t);
+        a[t]=0;
+    }
+
+    sort(ans.begin(),ans.end());
+    return ans;
+}

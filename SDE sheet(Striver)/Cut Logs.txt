@@ -1,0 +1,78 @@
+//recursive
+#include<bits/stdc++.h>
+using namespace std;
+int cutLogs(int k,int n){
+	if(n<=1 || k<=1){
+		return n;	
+	}
+	int ans =n;
+	for(int i=1;i<=n;i++){
+		int cur = max(cutLogs(k-1,i-1),cutLogs(k,n-i));
+		ans = min(ans,cur);
+	}
+	return ans+1;
+}
+//memoization
+int help(int k,int n,vector<vector<int>>&lookup){
+	if(n<=1||k<=1)
+	return n;
+	
+	if(lookup[k][n]!=-1)
+	return lookup[k][n];
+	
+	int ans = n;
+	
+	for(int i=1;i<=n;i++){
+		int cur = max(help(k-1,i-1,lookup),help(k,n-i,lookup));
+		ans = min(ans,cur);
+	}
+	lookup[k][n]  = ans+1;
+	return lookup[k][n];
+}
+int cutLogs(int k,int n){
+	vector<vector<int>>loookup(k+1,vector<int>(n+1,-1));
+	return help(k,n,lookup);
+}
+//DP-bottomup
+int cutLogs(int k,int n){
+	int dp[k+1][n+1];
+	
+	for(int i=0;i<=k;i++){
+		for(int j=0;j<=n;j++){
+			dp[i][j] = j;
+		}
+	}
+	
+	for(int i=2;i<=k;i++){
+		for(int j=2;j<=n;j++){
+			for(int t=1;t<=j;t++){
+				int cur = max(dp[i-1][t-1],dp[i][j-t]);
+				dp[i][j] = min(dp[i][j],cur);
+			}
+			dp[i][j]++;
+		}
+	}
+	return dp[k][n];
+}
+//Optimised DP
+int cutLogs(int k,int n){
+	vector<int>dp(n+1);
+	
+	for(int i=0;i<=n;i++){
+		dp[i] = i;
+	}
+	
+	for(int i=2;i<=k;i++){
+		vector<int>dp2(n+1);
+		int t =1;
+		
+		for(int j=1;j<=n;j++){
+			while(t<j && max(dp[t-1],dp2[j-t])>max(dp[t],dp2[j-t-1])){
+				t++;
+			}
+			dp2[j] = 1+max(dp[t-1],dp2[j-t]);
+		}
+		dp = dp2;
+	}
+	return dp[n];
+}

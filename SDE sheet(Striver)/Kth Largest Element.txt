@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+void Kth_Largest_MaxHeap(vector<int>&arr,int k){
+	priority_queue<int>pq;
+	int n = arr.size();
+	
+	for(int i=0;i<n;i++){
+		pq.push(arr[i]);
+	}
+	
+	int freq = k-1;
+	while(freq>0){
+		pq.pop();
+		freq--;
+	}
+	cout<<pq.top<<"\n";
+}
+void Kth_Smallest_MaxHeap(vector<int>&arr,int k){
+	priority_queue<int,vector<int>,greater<int>>pq;
+	int n = arr.size();
+	
+	for(int i=0;i<n;i++){
+		pq.push(arr[i]);
+	}
+	int freq = k-1;
+	while(freq>0){
+		pq.pop();
+		freq--;
+	}
+	cout<<pq.top()<<"\n";
+}
+//Another solution
+#include<bits/stdc++.h>
+vector<int> kthSmallLarge(vector<int> &arr, int n, int k)
+{
+	// Write your code here.
+	sort(arr.begin(),arr.end());
+	return {arr[k-1],arr[n-k]};
+}

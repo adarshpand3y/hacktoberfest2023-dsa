@@ -1,0 +1,36 @@
+//recursive approach + tree traversal
+#include<bits/stdc++.h>
+int findMaxPathSum(node*root,int&maxi){
+	if(root==NULL)
+	return 0;
+	
+	int leftMaxPath = max(0,findMaxPathSum(root->left,maxi));
+	int rightMaxPath = max(0,fidnMaxPathSum(root->right,maxi));
+	int val = root->data;
+	maxi = max(maxi,(leftMaxPath+rightMaxPath)+val);
+	return max(leftMaxPath,rightMaxPath)+val;
+}
+int maxPathSum(node*root){
+	int maxi = INT_MIN;
+	findMaxPath(root,maxi);
+	return maxi;
+}
+//CODESTUDIO SOL
+#include<bits/stdc++.h>
+//using recursion
+int maxi = INT_MIN;
+int help(TreeNode<int>*root){
+    if(root==NULL)
+    return 0;
+    int ls = max(0,help(root->left));
+    int rs = max(0,help(root->right));
+    maxi = max(maxi,root->data+ls+rs);
+    return root->data+max(ls,rs);
+}
+int maxPathSum(TreeNode<int> *root)
+{
+    // Write your code here
+    maxi = INT_MIN;
+    help(root);
+    return maxi;
+}

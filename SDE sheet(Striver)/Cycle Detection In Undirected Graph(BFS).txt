@@ -1,0 +1,73 @@
+//using BFS - codestudio
+#include<bits/stdc++.h>
+bool isCycle(int V,vector<vector<int>&graph,vector<bool>&visited,vector<int>&parent){
+	visited[V] = true;
+	queue<int>q;
+	
+	q.push(V);
+	while(q.size()!=0){
+		int remV = q.front();
+		q.pop();
+	
+	for(int adjV:graph[remV]){
+		if(visited[adjV]==false){
+			visited[adjV] = true;
+			q.push[adjV];
+			parent[adjV] = remV;
+		}
+		else if(visited[adjV]==true && parent[remV]!=adjV){
+			return true;
+			}
+		}
+	}
+	return false;
+}
+string CycleDetection(vector<vector<int>>&edges,int n,int m){
+	vector<vector<int>>graph(n+1,vector<int>());
+	for(int i=0;i<m;i++){
+		graph[edges[i][1]].push_back(edges[i][0]);
+		graph[edges[i][0]].push_back(edges[i][1]);
+	}
+	vector<bool>visited(n+1,false);
+	vector<int>parent(n+1,-1);
+	
+	for(int i=1;i<=n;i++){
+		if(visited[i]==false){
+			if(isCycle(i,graph,visited,parent)==true)
+			{
+				return "Yes";
+			}
+		}
+	}
+	return "No";
+}
+//Another sol
+bool dfs(int node,int parent,vector<vector<int>>&adj,vector<int>&vis) {
+  vis[node] = 1;
+  for (auto it:adj[node]) {
+    if(!vis[it]){
+      vis[it] = 1;
+      if(dfs(it,node,adj,vis) == true) 
+	  return true;
+    }
+    else if(it != parent) 
+	return true;
+  }
+  return false;
+}
+string cycleDetection (vector<vector<int>>&edges, int n, int m)
+{
+  vector<vector<int>> adj(n+1);
+  for (int i=0;i<m;i++) {
+    adj[edges[i][0]].push_back(edges[i][1]);
+    adj[edges[i][1]].push_back(edges[i][0]);
+  }
+  vector<int>vis(n+1,0);
+  for(int i=1;i<=n;i++) {
+    if (!vis[i]) {
+      if(dfs(i,-1,adj,vis) ==  true) 
+	  return "Yes";
+    }
+  }
+  return "No";
+}

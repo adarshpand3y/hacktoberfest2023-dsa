@@ -1,0 +1,70 @@
+//using Flood fill agorithm (DFS) - codestudio
+#include<bits/stdc++.h>
+int dx[] = {0,1,1,1,0,-1,-1,-1};
+int dy[] = {-1,-1,0,1,1,1,0,-1};
+
+vector<vector<bool>vis;
+void help(int** matrix,int n,int m,int x,int y){
+	if(!(x>=0 && x<n && y>=0 && y<m && matrix[x][y]==1 && !vis[x][y]))
+	return;
+	
+	vis[x][y] = true;
+	
+	for(int i=0;i<8;i++){
+		int nx = x+dx[i];
+		int ny = y+dy[i];
+	help(matrix,n,m,nx,ny);
+	}
+}
+int getTotalIslands(int**matrix,int n,int m){
+	vis = vector<vector<bool>>(n,vector<int>(m,false));
+	int islands = 0;
+	
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(matrix[i][j]==1 && !vis[i][j]){
+				islands++;
+				help(matrix,n,m,i,j);
+			}
+		}
+	}
+	return islands;
+}
+//solution - striver
+void dfs(int row,int col,vector<vector<int>>&vis,vector<vector<int>>&grid,vector<pair<int,int>>&vec,int row0,int col0){
+	vis[row][col] =1;
+	
+	vec.push_back({row-row0,col-col0});
+	int n = grid.size();
+	int m = grid[0].size();
+	
+	int delRow[] = {-1,0,1,0};
+	int delCol[] = {0,-1,0,1};
+	
+	for(int i=0;i<4;i++){
+		int nrow = row+delRow[i];
+		int ncol = col+delCol[i];
+		
+	if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]==1){
+		dfs(nrow,ncol,vis,grid,vec,row0,col0);
+		}
+	}
+}
+int countDistinctIslands(vector<vector<int>>&grid){
+	int n = grid.size();
+	int m = grid[0].size();
+	vector<vector<int>>vis(n,vector<int>(m,0));
+	set<vector<pair<int,int>>>st;
+	
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			if(!vis[i][j] && grid[i][j]==1){
+				vector<pair<int,int>>vec;
+				dfs(i,j,vis,grid,vec,i,j);
+				
+			st.insert(vec);
+			}
+		}
+	}
+	return st.size();
+}

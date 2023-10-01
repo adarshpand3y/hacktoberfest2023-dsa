@@ -1,0 +1,63 @@
+//brute approach
+#include<bits/stdc++.h>
+using namespace std;
+
+int majorityElement(vector<int>v){
+	int n = v.size();
+	for(int i=0;i<n;i++){
+		int cnt =0;
+		for(int j=0;j<n;j++){
+			if(v[j]==v[i]){ //counting the frequecy of v[i]
+				cnt++;
+			}
+		}
+		//check if freq is greater than n/2
+		if(cnt>(n/2))
+		return v[i];
+	}
+	return -1;
+}
+//better approach
+int majorityElement(vector<int>v){
+	int n = v.size();
+	map<int,int>mp;
+	
+	for(int i=0;i<n;i++){
+		mp[v[i]]++;
+	}
+	
+	for(auto i:mp){
+		if(it.second>(n/2)){
+			return it.first;
+		}
+	}
+	return -1;
+}
+//Optimal solution - Moore'voting algorithm
+int majortityElement(vector<int>v){
+	int n = v.size();
+	int cnt =0;
+	int elem;
+	
+	//applying the algoruthim
+	for(int i=0;i<n;i++){
+		if(cnt==0){
+			cnt = 1;
+			elem = v[i];
+		}
+		else if(elem ==v[i])
+			cnt++;
+		else 
+			cnt--;
+	}
+	
+	int cnt_next =0;
+	for(int i=0;i<n;i++){
+		if(v[i]==elem)
+		cnt_next++;
+	}
+	
+	if(cnt_next>(n/2))
+	  return elem;
+	return -1;
+}

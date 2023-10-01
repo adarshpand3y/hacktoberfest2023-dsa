@@ -1,0 +1,52 @@
+//using DP - striver
+#include<bits/stdc++.h>
+using namespace std;
+
+int getAns(int arr[],int n,int ind,int prev_ind,vector<vector<int>>&dp){
+	if(ind==n)
+		return 0;
+	if(dp[ind][prev_ind+1]!=-1)
+		return dp[ind][prev_ind+1];
+	
+	int not_take  = 0+getAns(arr,n,ind+1,prev_ind,dp);
+	int take =0;
+	if(prev_ind==-1 || arr[ind]>arr[prev_ind]){
+		take = 1+getAns(arr,n,ind+1,ind,dp);
+	}
+	return dp[ind][prev_ind+1] = max(not_take,take);
+}
+int LIS(int arr[],int n){
+	vector<vector<int>dp(n,vector<int>(n+1,-1));
+	return getAns(arr,n,0,-1,dp);
+}
+//Another sol - DP(codestudio)
+int LIS(int arr[],int n){
+	int dp[n];
+	dp[0] =1;
+	int ans =1;
+	for(int i=1;i<n;i++){
+		int maxVal =0;
+		for(int j=0;j<i;j++){
+			if(arr[i]>arr[j]){
+				maxVal = max(maxVal,dp[i]);
+			}
+		}
+		dp[i] = maxVal+1;
+		ans = max(ans,dp[i]);
+	}
+	return ans;
+}
+//recursive sol
+int LISHelp(int arr[],int n,int prev,int curPos){
+	if(curPos ==n)
+	return 0;
+	int take =0;
+	if(arr[curPos]>prev){
+		take = 1+LISHelp(arr,arr[curPos],curPos+1,n);
+	}
+	int notTake = LISHelp(arr,prev,curPos+1,n);
+	return max(take,notTake);
+}
+int LIS(int arr[],int n){
+	return LISHelp(arr,INT_MIN,0,n);
+}

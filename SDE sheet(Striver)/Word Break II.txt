@@ -1,0 +1,31 @@
+#include <bits/stdc++.h> 
+void freq(int i,string &s,string &t,vector<string>&ans,unordered_map<string,bool>&mp){
+    if(i==s.length()){
+        ans.push_back(t);
+        return;
+    }
+    for(int ind = i;ind<s.length();ind++){
+        int sz = t.size();
+        if(mp[s.substr(i,(ind-i+1))]){
+            t.append(s.substr(i,(ind-i+1)));
+            t.push_back(' ');
+            freq(ind+1,s,t,ans,mp);
+            int szn = t.size();
+            while(szn!=sz){
+                t.pop_back();
+                szn--;
+            }
+        }
+    }
+}
+vector<string> wordBreak(string &s, vector<string> &dict)
+{
+    unordered_map<string,bool>mp;
+    for(auto i:dict)
+    mp[i] = true;
+    vector<string>ans;
+    string t;
+    freq(0,s,t,ans,mp);
+    return ans;
+
+}

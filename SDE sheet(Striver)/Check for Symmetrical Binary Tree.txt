@@ -1,0 +1,32 @@
+//tree traversal - striver approach
+/*A symmetrical binary tree is a tree that forms a mirror of itself around the center. 
+In other words,every node in the left subtree will have a mirror image in the right subtree.*/
+#include<bits/stdc++.h>
+bool isSymmetricUtil(node*root1,node*root2){
+	if(root1==NULL||root2==NULL)
+	return root1==root2;
+	return (root1->data==root2->data) && isSymmetricUtil(root1->left,root2->right)&& isSymmtericUtil(root1->right,root2->left);
+	
+}
+bool isSymmteric(node*root){
+	if(!root)
+	return true;
+	return isSymmtericUtil(root->left,root->right);
+}
+//Codestudio sol - recursion
+#include<bits/stdc++.h>
+bool isSymm(BinaryTreeNode<int>*root1,BinaryTreeNode<int>*root2){
+    if(!root1 && !root2)
+    return true;
+    if(!root1 && root2 || !root2 && root1)
+    return false;
+    if(root1->data!=root2->data)
+    return false;
+    return isSymm(root1->left,root2->right) && isSymm(root1->right,root2->left);
+}
+bool isSymmetric(BinaryTreeNode<int>* root) {
+	//Write your code here
+    if(!root)
+    return true;
+    return isSymm(root->left,root->right);
+}

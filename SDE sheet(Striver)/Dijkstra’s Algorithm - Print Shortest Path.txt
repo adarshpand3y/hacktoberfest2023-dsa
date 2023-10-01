@@ -1,0 +1,36 @@
+//using priority queue(min heap)
+#include<bits/stdc++.h>
+vector<int>help(vector<vector<pair<int,int>>>&adj,int V,int src){
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+	vector<int>dist(V,INT_MAX);
+	
+	pq.push({0,src});
+	
+	dist[src] =0;
+	vector<bool>visited(V,false);
+	
+	while(!pq.empty()){
+		int u = pq.top().second;
+		pq.pop();
+		visited[u] = true;
+	
+	for(auto it = adj[u].begin();it!=adj[u].end();it++){
+		int v = it->first;
+		int dist = it->second;
+	if(visited[v]==false && dist[v]>dist[u]+dist){
+	 	dist[v] = dist[u]+dist;
+	 	pq.push({dist[v],v});
+	 	}
+	}
+}
+	return dist;
+}
+
+vector<int>dijkstra(vector<vector<int>>&vec,int V,int edges,int src){
+	vector<vector<pair<int,int>>>adj[V];
+	for(int i=0;i<(int)vec.size();i++){
+		adj[vec[i][0]].push_back({vec[i][1],vec[i][2]});
+		adj[vec[i][1]].push_back({vec[i][0],vec[i][2]});
+	}
+	return help(adj,V,0);	
+}

@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+	public:
+		int num;
+		node*next;
+		node(int val){
+			num = val;
+			next = NULL;
+		}
+};
+void createCycle(node*head,int pos){
+	node*ptr = head;
+	node*temp = head;
+	int cnt =0;
+	while(temp->next!=NULL){
+		if(cnt!=pos){
+			++cnt;
+			ptr = ptr->next;
+		}
+		temp = temp->next;
+	}
+	temp->next = ptr;
+}
+//main solution (using hashmap)
+node*detectCycle(node*head){
+	unordered_set<node*>st;
+	while(head!=NULL){
+		if(st.find(head)!=st.end())
+		return head;
+		st.insert(head);
+		head = head->next;
+	}
+	return NULL;
+}
+
+//Two pointer appraoch
+node*detectCycle(node*head){
+	if(head==NULL ||head->next->next==NULL)
+	return NULL;
+	
+	node*fast = head;
+	node*slow = head;
+	node*entry = head;
+	
+	while(fast->next!=NULL && fast->next->next!=NULL){
+		fast = fast>next->next;
+		slow = slow->next;
+		
+		if(slow==fast){
+			while(slow!=entry){
+				slow = slow->next;
+			    entry = entry->next;
+			}
+			return slow;
+		}
+	}
+	return NULL;
+}
