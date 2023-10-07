@@ -1,0 +1,28 @@
+//Java Program to perform push, pop and peek operations. 
+import java.util.Stack;
+
+public class Code20 {
+    public static void main(String args[]){
+        Stack<Integer>st=new Stack<>();
+        Stack<Integer>st2=new Stack<>();
+        st.push(5);
+        st.push(4);
+        st.push(1);
+        st.push(9);
+        st.push(3);
+        st.push(7);
+        int sum=0;
+        while(st.empty()==false){
+            int x=st.peek();
+            System.out.println(x);
+            sum+=x;
+            st.pop();
+            st2.push(x);
+        }
+        while(st2.empty()==false){
+            st.push(st2.peek());
+            st2.pop();
+        }   
+        System.out.println(sum);
+    }
+}
